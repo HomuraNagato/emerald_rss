@@ -1,0 +1,9 @@
+
+# call python script to access web pages
+#python emerald_rss.py
+
+# sync emerald_rss content into videos directory
+rsync -avzhP --remove-source-files /home/nagato/moonPrism/emerald_rss/westminster_hour/ /mnt/c/Users/Nagato/Music/iTunes/iTunes\ Media/Automatically\ Add\ to\ iTunes
+rsync -avzhP --remove-source-files /home/nagato/moonPrism/emerald_rss/marketplace/ /mnt/c/Users/Nagato/Music/iTunes/iTunes\ Media/Automatically\ Add\ to\ iTunes
+
+
