@@ -57,7 +57,17 @@ def choose_source():
                  'request': True
                  }
 
-    sources = ['westminster hour', 'marketplace', 'mangarock']
+    # kissanime.ru
+    kissanime = {'url': 'https://kissanime.ru/Anime',
+                 'directory': 'kissanime',
+                 'meta_type': 'a',
+                 'meta_search': '.*chapter-([\d.\-]+)',
+                 'text_filter': '',
+                 'data_link': '',
+                 'request': True
+                 }
+
+    sources = ['westminster hour', 'marketplace', 'mangarock', 'kissanime']
 
 
     print("which source would you like to choose from?\n")
@@ -69,6 +79,8 @@ def choose_source():
         source = marketplace
     elif selection == '2':
         source = mangarock
+    elif selection == '3':
+        source = kissanime
     else:
         print("try again")
         return choose_source()
@@ -256,7 +268,11 @@ def collect_chapters(chapter_requests, directory, manga_title):
         for i in range(1, int(page_total)+1):
             url_page = url_chapter + str(i)
             #print("collecting page", url_page)
-            img_source = soup_request(url_page).find_all('img', {'class': 'img'} )[0]['src']
+            try:
+                img_source = soup_request(url_page).find_all('img', {'class': 'img'} )[0]['src']
+            except:
+                img_on_page = soup_request(url_page).find_all('img')
+                print("unable to find img with class 'img', here are your selections\n", img_on_page)
             save_path = directory +'/' + manga_title + '/chapter_' + chapter_number
             save_location =  save_path + '/page_' + str(i) + '.jpeg'
 
@@ -282,6 +298,7 @@ def mangarock_chapter_request(url, directory, meta_type, meta_search):
     print("searching mangarock for manga", manga_title)
 
     url_title = url + '/' + manga_title
+    print("url_title", url_title)
     
     # get the objects in the url that have the indicated meta_type
     links = soup_request(url_title).find_all(meta_type)
@@ -299,7 +316,16 @@ def mangarock_chapter_request(url, directory, meta_type, meta_search):
 
     return None
 
-# main
+def kissanime_video_request(url, category_dict):
+    url = 'https://kissanime.ru/Anime/Pokemon-Sun-and-Moon-Dub/Episode-001-LQ?id=132257&s=default'
+    filter_ = 'my_video_1_html5_api'
+    meta_type = 'src'
+
+    soup = soup_request(url)
+    print('*** data ***\n', soup)
+    data = soup.find_all(meta_type, id = filter_)
+    print('*** data ***\n', data)
+    
 
 meta_source = choose_source()
 url = meta_source['url']
@@ -312,6 +338,8 @@ request    = meta_source['request']
 
 if 'mangarock' in url:
     mangarock_chapter_request(url, directory, meta_type, meta_search)
+elif 'kissanime' in url:
+    kissanime_video_request(url, meta_source)
 else:
     url_request(url, directory, meta_type, text_filter, meta_search, data_link, request)
 
