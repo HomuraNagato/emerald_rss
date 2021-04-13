@@ -4,3 +4,5 @@ mangarock/
 marketplace/
 westminster_hour/
 *~
+emerald_sync.sh
+emerald_sync_thread.py
