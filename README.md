@@ -3,7 +3,7 @@
 
 Program simulates an RSS feed by creating a connection to a website and using beautiful soup to
 locate media on the site, where traversal of the page is page dependant. Running the program will
-be prompted with one of four choices below. Follow the prompt to select. Once a connection is
+be prompted with one of the choices below. Follow the prompt to select. Once a connection is
 established, another prompt for which media to download will appear. Once selected, the media
 will be downloaded to a directory of the same name as the chosen site.
 
