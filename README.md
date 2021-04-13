@@ -17,6 +17,10 @@ Content is at the highest 128kbps offered.
 
 Download programs from NPR's Marketplace, found at the site: https://feeds.publicradio.org/public_feeds/marketplace-pm/rss/rss.
 
+### preferences
+
+Adjust configs/preferences.yaml for custom number of items to display and number of threads. See comments in emerald_rss.py - load_prefs function for further details.
+
 ## logs
 
 ### 2021.04.13

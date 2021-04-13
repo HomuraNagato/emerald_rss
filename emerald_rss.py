@@ -1,5 +1,4 @@
-'''
-Chosen gemstone: emerald
+"""
 objective: capture video and audio from various sites to watch offline
 
 news outlets
@@ -11,10 +10,9 @@ news outlets
 Potential podcasts
  - 
 
-# pip install html5lib
-
-
-'''
+in addition to any imports, also need to install:
+  pip install html5lib
+"""
 
 import certifi                  # certificate to verify HTTPS requests
 from bs4 import BeautifulSoup   # create soup from webpage-object
@@ -32,7 +30,10 @@ from emerald_thread import EmeraldThread
 
 def choose_source():
     """
-    special globals use to get class to initialise with
+    allow user to select from which source they wish to download from
+
+    :config:  dict of various elements required to trek and download from selected source
+    :class:   globals allows us to get a class eg. Westminster which we can then instantiate
     """
 
     f = open('configs/config.yaml', 'r')
@@ -52,13 +53,21 @@ def choose_source():
     return config[name], globals()[name]
 
 def load_prefs():
+    """
+    alter preferences.yaml for personal preference
+
+    :display_limit:   limit number of episodes to display, starting with most recent
+                      -1 (or any negative number) shows all
+    :max_concurrent:  number of threads to use; less if not enough episodes requested
+    :verbose:         whether to log additional info while downloading
+    """
     f = open('configs/preferences.yaml', 'r')
     prefs = yaml.safe_load(f)
     f.close()
     return prefs
 
 def assert_path(pdir):
-    # make a directory for the chapter if it hasn't been made
+    """ make a directory for source if it hasn't been made """
     if not os.path.isdir(pdir):
         print("the directory", pdir, "does not exist, creating now")
         os.mkdir(pdir)
@@ -102,7 +111,10 @@ class Episode(object):
             idx += 1
             
         # first filter
+        if self.limit < 0:
+            self.limit = len(self.links)
         s2 = s2[0:self.limit]
+        
         # prompt for downloads
         print("Content available to download\n")
         [ print('\t', d['idx'], d['date'], d['meta_text']) for i, d in enumerate(s2) ]
@@ -133,6 +145,11 @@ class Episode(object):
 
     
     def download_content(self):
+        """
+        instantiate threads with a queue among other items
+        actually start the process of accessing the parsed urls
+        and downloading the content
+        """
 
         nreqs = len(self.s2)
         assert_path(self.directory)
@@ -154,7 +171,7 @@ class Episode(object):
         for t in threads:
             t.join()                
 
-        return True
+        return None
 
 
 class Westminster(Episode):
