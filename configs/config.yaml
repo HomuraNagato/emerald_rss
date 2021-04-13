@@ -1,0 +1,21 @@
+
+Westminster:
+    url:             https://www.bbc.co.uk/programmes/p02nrs6c/episodes/downloads
+    directory:       westminster_hour
+    head_tag:        a
+    date_tag:        download
+    #text_tag:        
+    url_tag:         href
+    regexText:       .*(128kbps).*
+    regexDate:       Westminster\sHour\s(.*)\s\-
+
+
+MarketPlace:
+    url:             https://feeds.publicradio.org/public_feeds/marketplace-pm/rss/rss
+    directory:       marketplace
+    head_tag:        item
+    date_tag:        pubdate
+    text_tag:        title
+    url_tag:         enclosure
+
+
